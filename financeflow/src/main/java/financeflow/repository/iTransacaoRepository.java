@@ -3,6 +3,7 @@ package financeflow.repository;
 import financeflow.dto.TransacaoResponseDTO;
 import financeflow.model.TransacaoEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,6 +18,11 @@ public interface iTransacaoRepository extends JpaRepository<TransacaoEntity, UUI
     List<TransacaoEntity> findByUsuarioId(UUID usuarioId);
     // SELECT * FROM Transacao WHERE ID  = ?  and Usuario_Id = ?
     Optional<TransacaoEntity> findByIdAndUsuarioId(UUID id ,  UUID usuarioId);
+
+    //metodo para buscar por usuario, data transacao entre as datas de inicio e fim do mes
+    List<TransacaoEntity> findByUsuarioIdAndDataTransacaoBetween(UUID usuarioId,
+                                                                 LocalDate dataInicio,
+                                                                 LocalDate dataFim);
 
 
 }
