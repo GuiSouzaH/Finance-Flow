@@ -48,6 +48,7 @@ Com o FinanceFlow, o usuário cadastra suas receitas e despesas, visualiza seu s
 
 ## 📦 Estrutura do Projeto
 
+```bash
 src/
 ├── config/ → Configurações (Security, etc)
 ├── controller/ → Endpoints REST
@@ -57,6 +58,7 @@ src/
 ├── dto/ → Records de entrada e saída
 ├── enums/ → Enumerações do sistema
 └── exception/ → Exceções customizadas
+```
 
 ---
 
@@ -66,9 +68,9 @@ src/
 - Java 21
 - PostgreSQL
 - Maven
-
-### 1. Clone o repositório:
 ```bash
+### 1. Clone o repositório:
+
 git clone https://github.com/GuiSouzaH/Finance-Flow.git
 
 ### 2. Configure as variáveis de ambiente:
@@ -179,8 +181,9 @@ Desenvolvido por Guilherme Souza
 
 LinkedIn linkedin.com/in/guilherme-henrique-3545b9364/
 GitHub https://github.com/GuiSouzaH
+```
 
 <div align="center">
 ⭐ Se esse projeto te ajudou, deixa uma estrela!
 
-</div> ```
+</div> 
