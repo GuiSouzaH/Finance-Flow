@@ -68,7 +68,7 @@ src/
 - Maven
 
 ### 1. Clone o repositório:
-
+```bash
 git clone https://github.com/GuiSouzaH/Finance-Flow.git
 
 ### 2. Configure as variáveis de ambiente:
