@@ -14,10 +14,9 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/usuarios/{usuarioId}/dashboard")
-@Validated
 public class DashboardController {
 
-    private final    DashboardService dashboardService;
+    private final DashboardService dashboardService;
 
     @GetMapping("/categorias")
     @ResponseStatus(HttpStatus.OK)

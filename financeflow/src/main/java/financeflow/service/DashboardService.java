@@ -7,7 +7,7 @@ import financeflow.dto.MensalResponseDTO;
 import financeflow.enums.CategoriaTransacao;
 import financeflow.enums.TipoTransacao;
 import financeflow.model.TransacaoEntity;
-import financeflow.repository.iTransacaoRepository;
+import financeflow.repository.TransacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class DashboardService {
 
-    private final iTransacaoRepository transacaoRepository;
+    private final TransacaoRepository transacaoRepository;
 
 
 
@@ -83,6 +83,7 @@ public class DashboardService {
         //Gero uma lista de alertas
         List<String> alertas = new ArrayList<>();
 
+        MensalResponseDTO mensal = calcularMensal(usuarioId);
 
         //Busca por usuario entre certo periodo
         List<TransacaoEntity> lista = transacaoRepository.findByUsuarioIdAndDataTransacaoBetween
@@ -94,17 +95,10 @@ public class DashboardService {
                         YearMonth.now().minusMonths(1).atEndOfMonth());
 
         //mesmo codigo das receitas
-        BigDecimal receitas = lista.stream()
-                .filter(t -> t.getTipoTransacao() == TipoTransacao.RECEITA)
-                .map(TransacaoEntity::getValor)
-                // Extrai apenas os valores e soma usando reduce, iniciando com BigDecimal.ZERO
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal receitas = mensal.totalReceitas();
 
         //mesmo codigo das despesas
-        BigDecimal despesas = lista.stream()
-                .filter(t -> t.getTipoTransacao() == TipoTransacao.DESPESA)
-                .map(TransacaoEntity::getValor)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal despesas = mensal.totalDespesas();
 
         //mesmo codigo das despesas do mes anterior, utilizando o stream na listaMesAnterior
         BigDecimal despesasMesAnterior = listaMesAnterior.stream()
@@ -114,9 +108,9 @@ public class DashboardService {
 
 
         //saldo
-        BigDecimal saldo = receitas.subtract(despesas);
+        BigDecimal saldo = mensal.saldo();
 
-        //
+        //agrupa despesas por categoria e encontra a de maior valor
         Optional<Map.Entry<CategoriaTransacao, BigDecimal>> categoriaComMaiorGasto = lista.stream()
                 .filter(t -> t.getTipoTransacao() == TipoTransacao.DESPESA)
                 .collect(Collectors.groupingBy(TransacaoEntity::getCategoriaTransacao,
@@ -143,8 +137,6 @@ public class DashboardService {
         }
 
         return new AlertasResponseDTO(alertas);
-
-
     }
 
 }

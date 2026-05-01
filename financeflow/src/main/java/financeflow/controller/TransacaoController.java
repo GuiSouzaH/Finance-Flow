@@ -30,12 +30,12 @@ public class TransacaoController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<TransacaoResponseDTO> listarTransacao( @PathVariable UUID usuarioId)
+    public List<TransacaoResponseDTO> listarTransacoes( @PathVariable UUID usuarioId)
     {
         return transacaoService.listarTransacoes(usuarioId);
     }
 
-    @GetMapping("{transacaoId}")
+    @GetMapping("{/transacaoId}")
     @ResponseStatus (HttpStatus.OK)
     public TransacaoResponseDTO buscarTransacaoPorId (
                                           @PathVariable UUID usuarioId, @PathVariable UUID transacaoId) {
@@ -43,7 +43,7 @@ public class TransacaoController {
        return transacaoService.buscarPorId(usuarioId , transacaoId);
     }
 
-    @PutMapping("{transacaoId}")
+    @PutMapping("{/transacaoId}")
     @ResponseStatus(HttpStatus.OK)
     public TransacaoResponseDTO atualizarTransacao (
                                         @PathVariable UUID usuarioId, @PathVariable UUID transacaoId ,
@@ -51,7 +51,7 @@ public class TransacaoController {
        return transacaoService.atualizarTransacao(usuarioId , transacaoId , transacaoRequestDto);
     }
 
-    @DeleteMapping("{transacaoId}")
+    @DeleteMapping("{/transacaoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletarTransacao(
                                     @PathVariable UUID usuarioId, @PathVariable UUID transacaoId) {

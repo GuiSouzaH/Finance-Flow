@@ -1,8 +1,6 @@
 package financeflow.repository;
 
-import financeflow.dto.TransacaoResponseDTO;
 import financeflow.model.TransacaoEntity;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface iTransacaoRepository extends JpaRepository<TransacaoEntity, UUID> {
+public interface TransacaoRepository extends JpaRepository<TransacaoEntity, UUID> {
 
     //SELECT * FROM Transacao WHERE Usuario_Id = UUID usuarioID
     List<TransacaoEntity> findByUsuarioId(UUID usuarioId);

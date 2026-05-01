@@ -6,7 +6,7 @@ import financeflow.dto.UsuarioUpdateDTO;
 import financeflow.exception.UsuarioJaCadastradoException;
 import financeflow.exception.UsuarioNaoEncontradoException;
 import financeflow.model.UsuarioEntity;
-import financeflow.repository.iUsuarioRepository;
+import financeflow.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
-    private final iUsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private UsuarioResponseDTO toResponseDTO(UsuarioEntity entity) {
@@ -74,11 +74,18 @@ public class UsuarioService {
         UsuarioEntity usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException ("Usuário não foi encontrado"));
 
-        // Valida se o novo e-mail (se enviado) já pertence a outra pessoa
+
+
+        // Atualiza nome se fornecido
         if (usuarioUpdateDTO.nomeCompleto() != null) {
             usuarioExistente.setNomeCompleto(usuarioUpdateDTO.nomeCompleto());
         }
+        // Valida se o novo e-mail (se enviado) já pertence a outra pessoa
         if (usuarioUpdateDTO.email() != null) {
+            if (usuarioRepository.existsByEmail(usuarioUpdateDTO.email())) {
+                throw new UsuarioJaCadastradoException("Email já cadastrado!");
+            }
+
             usuarioExistente.setEmail(usuarioUpdateDTO.email());
         }
 
@@ -91,7 +98,4 @@ public class UsuarioService {
     public void deletarUsuario (UUID id) {
         usuarioRepository.deleteById(id);
     }
-
-
-
 }

@@ -10,11 +10,11 @@ import financeflow.exception.TransacaoNaoEncontradaException;
 import financeflow.exception.UsuarioNaoEncontradoException;
 import financeflow.model.TransacaoEntity;
 import financeflow.model.UsuarioEntity;
-import financeflow.repository.iTransacaoRepository;
-import financeflow.repository.iUsuarioRepository;
+import financeflow.repository.TransacaoRepository;
+import financeflow.repository.UsuarioRepository;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 
 public class TransacaoService {
-    private final iTransacaoRepository transacaoRepository;
-    private final iUsuarioRepository usuarioRepository;
+    private final TransacaoRepository transacaoRepository;
+    private final UsuarioRepository usuarioRepository;
 
 
     //pega os dados da entity e passa para o responseDTO
@@ -90,6 +90,7 @@ public class TransacaoService {
 
     }
 
+    @Transactional
     public TransacaoResponseDTO atualizarTransacao(UUID usuarioId, UUID transacaoId, TransacaoRequestDTO transacaoRequestDTO) {
 
         TransacaoEntity transacaoExistente = transacaoRepository.findByIdAndUsuarioId(transacaoId, usuarioId)
@@ -119,18 +120,18 @@ public class TransacaoService {
 
     public SaldoResponseDTO calcularSaldo (UUID usuarioID) {
 
-        List<TransacaoEntity> todasReceitasUsuario = transacaoRepository.findByUsuarioId(usuarioID);
+        List<TransacaoEntity> todasTransacoes = transacaoRepository.findByUsuarioId(usuarioID);
 
         //pega todas as transacoes de um usuario com nosso metodo do repository e filtra por receita ou despesa e mapeia
-        BigDecimal receitas = todasReceitasUsuario.stream()
+        BigDecimal receitas = todasTransacoes.stream()
                 .filter(t -> t.getTipoTransacao() == TipoTransacao.RECEITA)
                 .map(TransacaoEntity::getValor)
                 .reduce(BigDecimal.ZERO , BigDecimal::add);
 
-        BigDecimal despesas = todasReceitasUsuario.stream()
+        BigDecimal despesas = todasTransacoes.stream()
                 .filter(t -> t.getTipoTransacao() == TipoTransacao.DESPESA)
                 .map(TransacaoEntity::getValor)
-                //linha acima transaforma nosso objeto em um valor numerico BigDecimaL
+                // linha acima extrai o valor monetário de cada transação
                 .reduce(BigDecimal.ZERO , BigDecimal::add);
 
         BigDecimal saldo = receitas.subtract(despesas);
@@ -138,19 +139,5 @@ public class TransacaoService {
 
         return new SaldoResponseDTO( receitas,despesas, saldo);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

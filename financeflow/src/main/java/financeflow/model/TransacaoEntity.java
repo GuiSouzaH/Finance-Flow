@@ -5,10 +5,7 @@ import financeflow.enums.TipoTransacao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -18,7 +15,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "transacoes")
-@Data
+@ToString(exclude = "usuario")
+@Getter  @Setter
+@EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -31,18 +30,17 @@ public class TransacaoEntity {
     private UUID id;
 
     @Column (nullable = false)
-    @NotBlank
+
     private String descricao;
 
     @Column (nullable = false)
     private BigDecimal valor;
 
-    @NotNull
-    @Column(name = "data_transacao", updatable = false)
+    @Column(name = "data_transacao", nullable = false)
     private LocalDate dataTransacao;
 
     @CreationTimestamp
-    @Column(name = "data_criacao",  updatable = false)
+    @Column(name = "data_criacao",  updatable = false, nullable = false)
     private LocalDateTime dataCriacao;
 
     @Enumerated(EnumType.STRING)
