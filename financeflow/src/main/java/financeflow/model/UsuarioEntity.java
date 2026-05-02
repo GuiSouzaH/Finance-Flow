@@ -1,6 +1,7 @@
 package financeflow.model;
 
 
+import financeflow.enums.Roles;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,4 +35,7 @@ public class UsuarioEntity {
     @Column(name = "data_criacao" , nullable = false , updatable = false)
     private LocalDateTime dataCriacao;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Roles role;
 }

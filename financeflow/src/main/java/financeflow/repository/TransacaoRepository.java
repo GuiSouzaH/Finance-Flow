@@ -22,5 +22,6 @@ public interface TransacaoRepository extends JpaRepository<TransacaoEntity, UUID
                                                                  LocalDate dataInicio,
                                                                  LocalDate dataFim);
 
+    void deleteByUsuarioId(UUID usuarioId);
 
 }

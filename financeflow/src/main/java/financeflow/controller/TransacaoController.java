@@ -3,10 +3,12 @@ package financeflow.controller;
 import financeflow.dto.SaldoResponseDTO;
 import financeflow.dto.TransacaoRequestDTO;
 import financeflow.dto.TransacaoResponseDTO;
+import financeflow.security.UsuarioDetails;
 import financeflow.service.TransacaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,57 +17,51 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/usuarios/{usuarioId}/transacoes")
+@RequestMapping("/me/transacoes")
 @Validated
 public class TransacaoController {
     private final TransacaoService transacaoService;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public TransacaoResponseDTO criarTransacao ( @PathVariable UUID usuarioId,
+    public TransacaoResponseDTO criarTransacao ( @AuthenticationPrincipal UsuarioDetails usuarioDetails,
                                                     @Valid @RequestBody TransacaoRequestDTO transacaoRequestDTO ) {
-
+        UUID usuarioId = usuarioDetails.getId();
         return transacaoService.criarTransacao(usuarioId , transacaoRequestDTO);
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<TransacaoResponseDTO> listarTransacoes( @PathVariable UUID usuarioId)
+    public List<TransacaoResponseDTO> listarTransacoes( @AuthenticationPrincipal UsuarioDetails usuarioDetails)
     {
+        UUID usuarioId = usuarioDetails.getId();
         return transacaoService.listarTransacoes(usuarioId);
     }
 
-    @GetMapping("{/transacaoId}")
+    @GetMapping("/{transacaoId}")
     @ResponseStatus (HttpStatus.OK)
-    public TransacaoResponseDTO buscarTransacaoPorId (
-                                          @PathVariable UUID usuarioId, @PathVariable UUID transacaoId) {
-
+    public TransacaoResponseDTO buscarTransacaoPorId (@AuthenticationPrincipal UsuarioDetails usuarioDetails,
+                                                      @PathVariable UUID transacaoId) {
+        UUID usuarioId = usuarioDetails.getId();
        return transacaoService.buscarPorId(usuarioId , transacaoId);
     }
 
-    @PutMapping("{/transacaoId}")
+    @PutMapping("/{transacaoId}")
     @ResponseStatus(HttpStatus.OK)
-    public TransacaoResponseDTO atualizarTransacao (
-                                        @PathVariable UUID usuarioId, @PathVariable UUID transacaoId ,
-                                        @Valid @RequestBody TransacaoRequestDTO transacaoRequestDto) {
-       return transacaoService.atualizarTransacao(usuarioId , transacaoId , transacaoRequestDto);
+    public TransacaoResponseDTO atualizarTransacao (@AuthenticationPrincipal UsuarioDetails usuarioDetails,
+                                                    @PathVariable UUID transacaoId ,
+                                                    @Valid @RequestBody TransacaoRequestDTO transacaoRequestDto) {
+
+        UUID usuarioId = usuarioDetails.getId();
+        return transacaoService.atualizarTransacao(usuarioId , transacaoId , transacaoRequestDto);
     }
 
-    @DeleteMapping("{/transacaoId}")
+    @DeleteMapping("/{transacaoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletarTransacao(
-                                    @PathVariable UUID usuarioId, @PathVariable UUID transacaoId) {
+    public void deletarTransacao(@AuthenticationPrincipal UsuarioDetails usuarioDetails ,
+                                 @PathVariable UUID transacaoId) {
+        UUID usuarioId = usuarioDetails.getId();
         transacaoService.deletarTransacao(usuarioId, transacaoId);
     }
-
-    @GetMapping("/saldo")
-    @ResponseStatus(HttpStatus.OK)
-    public SaldoResponseDTO calcularSaldo (
-                                   @PathVariable UUID usuarioId) {
-
-       return transacaoService.calcularSaldo(usuarioId);
-    }
-
-    
 
 }
