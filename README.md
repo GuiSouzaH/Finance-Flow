@@ -255,7 +255,7 @@ GitHub: github.com/GuiSouzaH
 <div align="center">
 ⭐ Se curtiu o projeto ou acompanhou a evolução, deixa uma estrela!
 
-</div> ```
+</div> 
 
 
 
