@@ -50,7 +50,7 @@ src/
 ├── config/      → Configurações de segurança e filtro JWT
 ├── controller/  → Endpoints REST
 ├── dto/         → Records de entrada e saída
-├── enums/       → Enumerações do sistema
+├── enums/       → Enums do sistema
 ├── exception/   → Exceções customizadas
 ├── model/       → Entidades JPA
 ├── repository/  → Acesso ao banco de dados
