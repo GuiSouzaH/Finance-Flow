@@ -11,7 +11,10 @@ import financeflow.exception.UsuarioNaoEncontradoException;
 import financeflow.model.TransacaoEntity;
 import financeflow.model.UsuarioEntity;
 import financeflow.repository.TransacaoRepository;
+import financeflow.repository.TransacaoRepositoryPageble;
 import financeflow.repository.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 public class TransacaoService {
     private final TransacaoRepository transacaoRepository;
     private final UsuarioRepository usuarioRepository;
+    private final TransacaoRepositoryPageble transacaoRepositoryPageble;
 
 
     //pega os dados da entity e passa para o responseDTO
@@ -67,18 +71,16 @@ public class TransacaoService {
     }
 
     //espera retorno de uma lista
-    public List<TransacaoResponseDTO> listarTransacoes (UUID usuarioId) {
-        UsuarioEntity usuario = usuarioRepository.findById(usuarioId)
-                .orElseThrow(() -> new UsuarioNaoEncontradoException("Esse usuário não foi encontrado"));
-
-        //Uma lista de transacoes que utiliza nosso metodo do repository para buscar todas as transacoees de um usuario
-        List<TransacaoEntity> usuarioTransacoes = transacaoRepository.findByUsuarioId(usuario.getId());
-
-        // uso de stream().map().collect(Collectors.toList()) que transforma uma lista de objetos em outrasss
-        return usuarioTransacoes.stream()
-                .map(this::toRespondeDto)
-                //acima mapeia cada entity para um novo dto
-                .collect(Collectors.toList());
+    public Page<TransacaoResponseDTO> listarTransacoes (UUID usuarioId , Pageable pageable) {
+        return transacaoRepository.findByUsuarioId( usuarioId, pageable).map( e -> new TransacaoResponseDTO(
+                e.getId(),
+                e.getDescricao(),
+                e.getValor(),
+                e.getDataTransacao(),
+                e.getTipoTransacao(),
+                e.getCategoriaTransacao(),
+                e.getDataCriacao()
+        ));
 
     }
     public TransacaoResponseDTO buscarPorId(UUID usuarioId, UUID transacaoId) {
@@ -139,5 +141,6 @@ public class TransacaoService {
 
         return new SaldoResponseDTO( receitas,despesas, saldo);
     }
+    
 
 }

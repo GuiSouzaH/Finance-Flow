@@ -30,7 +30,6 @@ public class TransacaoEntity {
     private UUID id;
 
     @Column (nullable = false)
-
     private String descricao;
 
     @Column (nullable = false)

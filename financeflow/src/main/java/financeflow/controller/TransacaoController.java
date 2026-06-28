@@ -1,18 +1,18 @@
 package financeflow.controller;
 
-import financeflow.dto.SaldoResponseDTO;
 import financeflow.dto.TransacaoRequestDTO;
 import financeflow.dto.TransacaoResponseDTO;
 import financeflow.security.UsuarioDetails;
 import financeflow.service.TransacaoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,10 +32,12 @@ public class TransacaoController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<TransacaoResponseDTO> listarTransacoes( @AuthenticationPrincipal UsuarioDetails usuarioDetails)
+    public Page<TransacaoResponseDTO> listarTransacoes(@AuthenticationPrincipal UsuarioDetails usuarioDetails,
+                                                                       @PageableDefault (page = 0, size = 10, sort = "dataTransacao") Pageable pageable)
     {
         UUID usuarioId = usuarioDetails.getId();
-        return transacaoService.listarTransacoes(usuarioId);
+        Page<TransacaoResponseDTO> page = transacaoService.listarTransacoes(usuarioId, pageable);
+        return page;
     }
 
     @GetMapping("/{transacaoId}")
