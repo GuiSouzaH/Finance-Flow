@@ -3,7 +3,7 @@ package financeflow.service;
 import financeflow.dto.AuthResponseDTO;
 import financeflow.dto.LoginRequestDTO;
 import financeflow.exception.UsuarioNaoEncontradoException;
-import financeflow.model.UsuarioEntity;
+import financeflow.model.entity.UsuarioEntity;
 import financeflow.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

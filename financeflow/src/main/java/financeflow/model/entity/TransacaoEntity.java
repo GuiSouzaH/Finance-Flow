@@ -1,10 +1,8 @@
-package financeflow.model;
+package financeflow.model.entity;
 
 import financeflow.enums.CategoriaTransacao;
 import financeflow.enums.TipoTransacao;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 

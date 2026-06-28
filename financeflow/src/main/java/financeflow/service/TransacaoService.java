@@ -8,8 +8,8 @@ import financeflow.dto.TransacaoResponseDTO;
 import financeflow.enums.TipoTransacao;
 import financeflow.exception.TransacaoNaoEncontradaException;
 import financeflow.exception.UsuarioNaoEncontradoException;
-import financeflow.model.TransacaoEntity;
-import financeflow.model.UsuarioEntity;
+import financeflow.model.entity.TransacaoEntity;
+import financeflow.model.entity.UsuarioEntity;
 import financeflow.repository.TransacaoRepository;
 import financeflow.repository.TransacaoRepositoryPageble;
 import financeflow.repository.UsuarioRepository;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

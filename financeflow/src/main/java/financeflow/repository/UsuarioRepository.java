@@ -1,7 +1,7 @@
 package financeflow.repository;
 
 
-import financeflow.model.UsuarioEntity;
+import financeflow.model.entity.UsuarioEntity;
 
 import java.util.Optional;
 import java.util.UUID;

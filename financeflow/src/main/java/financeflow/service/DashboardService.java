@@ -6,7 +6,7 @@ import financeflow.dto.CategoriasResponseDTO;
 import financeflow.dto.MensalResponseDTO;
 import financeflow.enums.CategoriaTransacao;
 import financeflow.enums.TipoTransacao;
-import financeflow.model.TransacaoEntity;
+import financeflow.model.entity.TransacaoEntity;
 import financeflow.repository.TransacaoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

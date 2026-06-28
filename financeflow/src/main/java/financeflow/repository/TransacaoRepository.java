@@ -1,6 +1,6 @@
 package financeflow.repository;
 
-import financeflow.model.TransacaoEntity;
+import financeflow.model.entity.TransacaoEntity;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

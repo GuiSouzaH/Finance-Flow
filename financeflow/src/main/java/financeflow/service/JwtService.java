@@ -1,6 +1,6 @@
 package financeflow.service;
 
-import financeflow.model.UsuarioEntity;
+import financeflow.model.entity.UsuarioEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

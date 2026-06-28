@@ -1,6 +1,6 @@
 package financeflow.service;
 
-import financeflow.model.UsuarioEntity;
+import financeflow.model.entity.UsuarioEntity;
 import financeflow.repository.UsuarioRepository;
 import financeflow.security.UsuarioDetails;
 import lombok.RequiredArgsConstructor;

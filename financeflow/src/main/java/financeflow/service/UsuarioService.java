@@ -6,7 +6,7 @@ import financeflow.dto.UsuarioUpdateDTO;
 import financeflow.enums.Roles;
 import financeflow.exception.UsuarioJaCadastradoException;
 import financeflow.exception.UsuarioNaoEncontradoException;
-import financeflow.model.UsuarioEntity;
+import financeflow.model.entity.UsuarioEntity;
 import financeflow.repository.TransacaoRepository;
 import financeflow.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;

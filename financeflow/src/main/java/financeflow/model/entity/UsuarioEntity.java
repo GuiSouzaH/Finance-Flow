@@ -1,4 +1,4 @@
-package financeflow.model;
+package financeflow.model.entity;
 
 
 import financeflow.enums.Roles;

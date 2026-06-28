@@ -1,6 +1,6 @@
 package financeflow.repository;
 
-import financeflow.model.TransacaoEntity;
+import financeflow.model.entity.TransacaoEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

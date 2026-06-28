@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: financeflow
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
   datasource:
     url: jdbc:postgresql://localhost:5432/financeflow
@@ -25,3 +29,5 @@ jwt:
   expiration-ms: ${JWT_EXPIRATION_MS:86400000}
 
 
+gemini:
+  api-key ${GEMINI_API_KEY}
